@@ -30,5 +30,11 @@ public class Classe {
     public int getCoordinatoreId(){
       return this.coordinatore.getId();
     }
+    public String getCoordinatoreNome(){
+        return this.coordinatore.getNome();
+    }
+    public String getCoordinatoreCognome(){
+        return this.coordinatore.getCognome();
+    }
 
 }

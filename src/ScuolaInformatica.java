@@ -3,6 +3,7 @@ import java.util.Scanner;
 import Service.DocenteService;
 import Service.ClasseService;
 import Entity.Docente;
+import Entity.Classe;
 public class ScuolaInformatica {
     public static void main(String[] args) {
 
@@ -94,7 +95,7 @@ public class ScuolaInformatica {
                     updateDocente();
                     break;
                 case 3:
-                    readDocente();
+                    readClasse();
                     break;
                 case 4:
                     deleteDocente();
@@ -174,6 +175,22 @@ public class ScuolaInformatica {
         }catch(Exception e){
             System.out.println("Something went wrong.");
         }
+    }
+    public static void updateClasse(){
+
+    }
+    public static void readClasse(){
+        System.out.println("ecco la lista delle classi: ");
+        ClasseService oClasseService = new ClasseService();
+        List<Classe> listaClasse= oClasseService.readClasse();
+        //System.out.println(oDocenteService.hashCode());
+        int i = 0;
+        while(i<listaClasse.size()){
+            System.out.println(listaClasse.get(i).getId()+" "+listaClasse.get(i).getAnno()+" "+listaClasse.get(i).getSezione()+" "+listaClasse.get(i).getCoordinatoreNome()+" "+listaClasse.get(i).getCoordinatoreCognome() );
+            i++;}
+    }
+    public static void deleteClasse(){
+
     }
     //CRUD GITA
     //CRUD CLASSE GITA

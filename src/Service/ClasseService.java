@@ -5,6 +5,8 @@ import Entity.Docente;
 import Repository.ClasseRepository;
 import Repository.DocenteRepository;
 
+import java.util.ArrayList;
+
 public class ClasseService {
     ClasseRepository classeRepository=new ClasseRepository();
     DocenteRepository docenteRepository=new DocenteRepository();
@@ -16,5 +18,8 @@ public class ClasseService {
         oDocente = docenteRepository.readDocenteById(id);
         oClasse.setCoordinatore(oDocente);
         classeRepository.createClasse(oClasse);
+    }
+    public ArrayList<Classe> readClasse(){
+        return classeRepository.readClasse();
     }
 }
