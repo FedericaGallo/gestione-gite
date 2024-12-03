@@ -1,5 +1,9 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import Entity.ClasseGita;
+import Repository.ClasseGitaRepository;
 import Service.DocenteService;
 import Service.ClasseService;
 import Service.GitaService;
@@ -21,6 +25,7 @@ public class ScuolaInformatica {
         System.out.println("2. Per gestire le classi");
         System.out.println("3. Per gestire le gite");
         System.out.println("4. Per gestire i dettagli delle uscite didattiche");
+        System.out.println("5. Query varie");
         choiceEntity = scanner.nextInt();
 
         switch (choiceEntity){
@@ -35,6 +40,9 @@ public class ScuolaInformatica {
                 break;
             case 4:
                 gestisciDettagliGite();
+                break;
+            case 5:
+                faiDelleQuery();
                 break;
             default:
                 System.out.println("scelta errata. scegliere un numero da 1 a 4");
@@ -189,6 +197,42 @@ public class ScuolaInformatica {
 
 
     }
+    public static void faiDelleQuery(){
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do{
+            System.out.println("1. Cerca le gite in programma dalla data alla data ");
+            System.out.println("2. Cerca le gite della classe ");
+            System.out.println("3. Cerca il docente che coordina la gita a");
+            System.out.println("4. Cerca il docente che partecipa a più gite");
+            System.out.println("9. Exit");
+            System.out.print("inserisci la tua scelta: ");
+
+            choice= scanner.nextInt();
+
+            switch (choice){
+                case 1:
+                    readClasseGitaByDate();
+                    break;
+                case 2:
+                    //updateDocente();
+                    break;
+                case 3:
+                    //readClasse();
+                    break;
+                case 4:
+                    //deleteDocente();
+                    break;
+                case 9:
+                    System.out.println("exiting");
+                    break;
+                default:
+                    System.out.println("Scelta errata, scegli un numero da 1 a 4");
+
+            }
+        }while(choice!=9);
+
+    };
 //CRUD DOCENTE
     public static void createDocente(){
       try{
@@ -305,6 +349,25 @@ public class ScuolaInformatica {
         }catch(Exception e){
             System.out.println("Something went wrong.");
         }
+    }
+    // QUERY VARIE
+    public static void readClasseGitaByDate(){
+        ClasseGitaRepository classeGitaRepository = new ClasseGitaRepository();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Inserisci la prima data dell'intervallo nel formato YYYY-MM-DD: ");
+        String primaData = scanner.nextLine();
+        System.out.print("Inserisci la seconda data dell'intervallo nel formato YYYY-MM-DD: ");
+        String secondaData = scanner.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dataPartenzaFormatted = LocalDate.parse(primaData, formatter);
+        LocalDate dataRitornoFormatted = LocalDate.parse(secondaData, formatter);
+        ArrayList<ClasseGita> listaClasseGita=classeGitaRepository.readByDateInterval(dataPartenzaFormatted, dataRitornoFormatted);
+        int i = 0;
+        while(i<listaClasseGita.size()){
+            System.out.println(listaClasseGita.get(i).getId()+". " + "classe: "+ listaClasseGita.get(i).getClasseNome()+ " dal "+listaClasseGita.get(i).getDataPartenza()+" al "+listaClasseGita.get(i).getDataRitorno()+" coordinatore classe: "+listaClasseGita.get(i).getClasseCoordinatore()+" "+listaClasseGita.get(i).getGitaDettagli());
+            i++;}
+
+
     }
 
 }

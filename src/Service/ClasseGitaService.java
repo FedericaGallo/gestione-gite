@@ -7,6 +7,7 @@ import Repository.ClasseGitaRepository;
 import Repository.GitaRepository;
 import Repository.ClasseRepository;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ClasseGitaService {
     ClasseGitaRepository classeGitaRepository= new ClasseGitaRepository();
@@ -24,4 +25,5 @@ public class ClasseGitaService {
 
         classeGitaRepository.createClasseGita(oClasseGita);
     }
+
 }
