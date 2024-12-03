@@ -1,4 +1,4 @@
-#gestionale gite scolastiche
+# gestionale gite scolastiche
 ***
 
 La scuola Informatica & Co. vuole informatizzare la gestione delle gite scolastiche. A tal proposito si forniscono le seguenti regole di lettura:
