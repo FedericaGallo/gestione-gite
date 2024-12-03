@@ -201,8 +201,8 @@ public class ScuolaInformatica {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do{
-            System.out.println("1. Cerca le gite in programma dalla data alla data ");
-            System.out.println("2. Cerca le gite della classe ");
+            System.out.println("1. Cerca le gite in programma tra un intervallo di date");
+            System.out.println("2. Cerca le gite di una classe ");
             System.out.println("3. Cerca il docente che coordina la gita a");
             System.out.println("4. Cerca il docente che partecipa a più gite");
             System.out.println("9. Exit");
@@ -215,7 +215,7 @@ public class ScuolaInformatica {
                     readClasseGitaByDate();
                     break;
                 case 2:
-                    //updateDocente();
+                    readClasseGitaByClasse();
                     break;
                 case 3:
                     //readClasse();
@@ -368,6 +368,21 @@ public class ScuolaInformatica {
             i++;}
 
 
+    }
+
+    public static void readClasseGitaByClasse(){
+        ClasseGitaRepository classeGitaRepository = new ClasseGitaRepository();
+        readClasse();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Inserisci l'anno: ");
+        int anno = scanner.nextInt();
+        System.out.print("Inserisci la sezione: ");
+        char sezione = scanner.next().charAt(0);
+        ArrayList <ClasseGita> listaClasseGita = classeGitaRepository.readByClasse(anno, sezione);
+        int i = 0;
+        while(i<listaClasseGita.size()){
+            System.out.println(listaClasseGita.get(i).getId()+". " + "classe: "+ listaClasseGita.get(i).getClasseNome()+ " dal "+listaClasseGita.get(i).getDataPartenza()+" al "+listaClasseGita.get(i).getDataRitorno()+" coordinatore classe: "+listaClasseGita.get(i).getClasseCoordinatore()+" "+listaClasseGita.get(i).getGitaDettagli());
+            i++;}
     }
 
 }

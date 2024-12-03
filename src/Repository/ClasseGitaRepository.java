@@ -52,4 +52,31 @@ public class ClasseGitaRepository {
         }
         return listaGita;
     }
+
+    public ArrayList<ClasseGita> readByClasse(int anno, char sezione){
+        ArrayList<ClasseGita> listaGita = new ArrayList<>();
+        GitaRepository gitaRepository = new GitaRepository();
+        ClasseRepository classeRepository = new ClasseRepository();
+        try {
+            Connection c = DbConnection.openConnection();
+            //System.out.println("Connessione riuscita!");
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM classe_gita cg JOIN classe c ON c.id=cg.id_classe  WHERE c.anno = " + "'"+anno +"'"+ " AND c.sezione = " + " '" + sezione+ " '");
+            while (rs.next()) {
+                ClasseGita oClasseGita = new ClasseGita();
+                oClasseGita.setDataPartenza(rs.getDate("data_partenza").toLocalDate());
+                oClasseGita.setDataRitorno(rs.getDate("data_ritorno").toLocalDate());
+                oClasseGita.setId(rs.getInt("id"));
+                Gita oGita = gitaRepository.readGitaById(rs.getInt("id_gita"));
+                Classe oClasse = classeRepository.readClasseById(rs.getInt("id_classe"));
+                oClasseGita.setGita(oGita);
+                oClasseGita.setClasse(oClasse);
+                listaGita.add(oClasseGita);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+        return listaGita;
+    }
 }
