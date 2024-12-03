@@ -2,11 +2,17 @@ import java.util.List;
 import java.util.Scanner;
 import Service.DocenteService;
 import Service.ClasseService;
+import Service.GitaService;
+import Service.ClasseGitaService;
 import Entity.Docente;
 import Entity.Classe;
+import Entity.Gita;
+import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 public class ScuolaInformatica {
     public static void main(String[] args) {
-
+         //gestisciDettagliGite();
         //System.out.println("Hello world!");
         Scanner scanner = new Scanner(System.in);
 
@@ -25,10 +31,10 @@ public class ScuolaInformatica {
                 gestisciClasse();
                 break;
             case 3:
-
+                gestisciGita();
                 break;
             case 4:
-
+                gestisciDettagliGite();
                 break;
             default:
                 System.out.println("scelta errata. scegliere un numero da 1 a 4");
@@ -92,13 +98,85 @@ public class ScuolaInformatica {
                     createClasse();
                     break;
                 case 2:
-                    updateDocente();
+                    //updateDocente();
                     break;
                 case 3:
                     readClasse();
                     break;
                 case 4:
-                    deleteDocente();
+                    //deleteDocente();
+                    break;
+                case 9:
+                    System.out.println("exiting");
+                    break;
+                default:
+                    System.out.println("Scelta errata, scegli un numero da 1 a 4");
+
+            }
+        }while(choice!=9);
+
+
+    }
+    public static void gestisciGita(){
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do{
+            System.out.println("1. Crea una nuova gita");
+            System.out.println("2. Aggiorna una gita");
+            System.out.println("3. Visualizza la lista delle gite");
+            System.out.println("4. Elimina una gita");
+            System.out.println("9. Exit");
+            System.out.print("inserisci la tua scelta: ");
+
+            choice= scanner.nextInt();
+
+            switch (choice){
+                case 1:
+                    //createClasse();
+                    break;
+                case 2:
+                    //updateDocente();
+                    break;
+                case 3:
+                    readGita();
+                    break;
+                case 4:
+                    //deleteDocente();
+                    break;
+                case 9:
+                    System.out.println("exiting");
+                    break;
+                default:
+                    System.out.println("Scelta errata, scegli un numero da 1 a 4");
+
+            }
+        }while(choice!=9);
+    }
+    public static void gestisciDettagliGite(){
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do{
+            System.out.println("1. Pianifica una nuova gita");
+            System.out.println("2. Modifica una gita pianificata");
+            System.out.println("3. Visualizza la lista delle gite pianificate");
+            System.out.println("4. Elimina una gita pianificata");
+            System.out.println("9. Exit");
+            System.out.print("inserisci la tua scelta: ");
+
+            choice= scanner.nextInt();
+
+            switch (choice){
+                case 1:
+                    createClasseGita();
+                    break;
+                case 2:
+                    //updateDocente();
+                    break;
+                case 3:
+                    //readClasse();
+                    break;
+                case 4:
+                    //deleteDocente();
                     break;
                 case 9:
                     System.out.println("exiting");
@@ -193,5 +271,40 @@ public class ScuolaInformatica {
 
     }
     //CRUD GITA
+    public static void readGita(){
+        System.out.println("ecco la lista delle gite: ");
+        GitaService oGitaService = new GitaService();
+        List<Gita> listaGita= oGitaService.readGita();
+        //System.out.println(oDocenteService.hashCode());
+        int i = 0;
+        while(i<listaGita.size()){
+            System.out.println(listaGita.get(i).getId()+" "+listaGita.get(i).getDestinazione()+", coordinatore gita: "+listaGita.get(i).getDocenteCognome()+" "+listaGita.get(i).getDocenteNome() );
+            i++;}
+    }
     //CRUD CLASSE GITA
+    public static void createClasseGita(){
+        try{
+            readClasse();
+            System.out.println("inserisci id classe: ");
+            Scanner scanner = new Scanner(System.in);
+            int idClasse = scanner.nextInt();
+            readGita();
+            System.out.println("inserisci id gita: ");
+            int idGita = scanner.nextInt();
+            scanner.nextLine();
+            System.out.print("Inserisci la data di partenza nel formato YYYY-MM-DD: ");
+            String dataPartenza = scanner.nextLine();
+            System.out.print("Inserisci la data di ritorno nel formato YYYY-MM-DD: ");
+            String dataRitorno = scanner.nextLine();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate dataPartenzaFormatted = LocalDate.parse(dataPartenza, formatter);
+            LocalDate dataRitornoFormatted = LocalDate.parse(dataRitorno, formatter);
+
+            ClasseGitaService oClasseGitaService = new ClasseGitaService();
+            oClasseGitaService.create(idGita, idClasse, dataPartenzaFormatted, dataRitornoFormatted);
+        }catch(Exception e){
+            System.out.println("Something went wrong.");
+        }
+    }
+
 }

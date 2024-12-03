@@ -3,6 +3,7 @@ package Repository;
 import Config.DbConnection;
 import Entity.Classe;
 import Entity.Docente;
+import Entity.Gita;
 import Repository.DocenteRepository;
 
 import java.sql.*;
@@ -42,5 +43,28 @@ public class ClasseRepository {
             System.exit(0);
         }
         return listaClasse;
+    }
+    public Classe readClasseById(int id){
+       DocenteRepository docenteRepository = new DocenteRepository();
+       Classe oClasse= new Classe();
+        try{
+            Connection c = DbConnection.openConnection();
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM classe WHERE id= " + id);
+
+            while (rs.next()) {
+
+                oClasse.setId(rs.getInt("id"));
+                oClasse.setAnno(rs.getInt("anno"));
+                oClasse.setSezione(rs.getString("sezione").charAt(0));
+                Docente oDocente = docenteRepository.readDocenteById(rs.getInt("id_docente"));
+                oClasse.setCoordinatore(oDocente);
+
+            }
+        }catch (ClassNotFoundException|SQLException e){
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+        return oClasse;
     }
 }

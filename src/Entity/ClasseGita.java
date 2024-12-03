@@ -6,7 +6,7 @@ public class ClasseGita {
     private LocalDate dataPartenza;
     private LocalDate dataRitorno;
     private Classe classe;
-    private Docente docente;
+    private Gita gita;
 
     public void setDataPartenza(LocalDate dataPartenza) {
         this.dataPartenza = dataPartenza;
@@ -16,8 +16,8 @@ public class ClasseGita {
         this.dataRitorno = dataRitorno;
     }
 
-    public void setDocente(Docente docente) {
-        this.docente = docente;
+    public void setGita(Gita gita) {
+        this.gita = gita;
     }
 
     public void setClasse(Classe classe) {
@@ -28,5 +28,11 @@ public class ClasseGita {
     }
     public LocalDate getDataRitorno(){
         return dataRitorno;
+    }
+    public int getClasseId(){
+        return this.classe.getId();
+    }
+    public int getGitaId(){
+        return this.gita.getId();
     }
 }

@@ -17,13 +17,19 @@ public class Gita {
         this.id = id;
     }
 
-    public Docente getDocente(){
-       return docente;
+    public int getDocenteId(){
+       return docente.getId();
+    }
+    public String getDocenteNome(){
+        return docente.getNome();
+    }
+    public String getDocenteCognome(){
+        return docente.getCognome();
     }
     public String getDestinazione(){
         return destinazione;
     }
-    public int getId(int id){
+    public int getId(){
        return id;
     }
 }
