@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Config.DbConnection;
 public class DocenteRepository {
@@ -90,6 +91,41 @@ public class DocenteRepository {
             System.err.println(e.getMessage());
             System.exit(0);
         }
+    }
+    public HashMap<Docente, Integer> readDocentiConPiuDiUnaGita(){
+        HashMap<Docente, Integer> docentiCountGita = new HashMap<>();
+        try{
+            Connection c = DbConnection.openConnection();
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT cd.nome, cd.cognome, COUNT(*) FROM classe_gita cg "+
+            "JOIN classe c ON cg.id_classe=c.id "+
+            "JOIN docente cd ON c.id_docente= cd.id "+
+            "JOIN gita g ON cg.id_gita=g.id "+
+           "JOIN docente gd ON g.id_docente= gd.id "+
+            "GROUP BY (cd.nome, cd.cognome) "+
+            " HAVING COUNT(*)>1 "+
+           " UNION "+
+            "SELECT gd.nome, gd.cognome, COUNT(*) FROM classe_gita cg "+
+            "JOIN classe c ON cg.id_classe=c.id "+
+            "JOIN docente cd ON c.id_docente= cd.id "+
+            "JOIN gita g ON cg.id_gita=g.id "+
+            "JOIN docente gd ON g.id_docente= gd.id "+
+            "GROUP BY (gd.nome, gd.cognome) "+
+            " HAVING COUNT(*)>1;");
+
+            while (rs.next()) {
+                Docente oDocente= new Docente();
+                oDocente.setNome(rs.getString("nome"));
+                oDocente.setCognome(rs.getString("cognome"));
+                int count = rs.getInt("count");
+                docentiCountGita.put(oDocente, count);
+
+            }
+        }catch (ClassNotFoundException|SQLException e){
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+        return docentiCountGita;
     }
 }
 

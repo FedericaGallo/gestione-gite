@@ -1,9 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import Entity.ClasseGita;
 import Repository.ClasseGitaRepository;
+import Repository.DocenteRepository;
 import Service.DocenteService;
 import Service.ClasseService;
 import Service.GitaService;
@@ -11,7 +10,7 @@ import Service.ClasseGitaService;
 import Entity.Docente;
 import Entity.Classe;
 import Entity.Gita;
-import java.util.Date;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 public class ScuolaInformatica {
@@ -203,8 +202,8 @@ public class ScuolaInformatica {
         do{
             System.out.println("1. Cerca le gite in programma tra un intervallo di date");
             System.out.println("2. Cerca le gite di una classe ");
-            System.out.println("3. Cerca il docente che coordina la gita a");
-            System.out.println("4. Cerca il docente che partecipa a più gite");
+            System.out.println("3. Cerca il docente che coordina una gita ");
+            System.out.println("4. Cerca i docenti che partecipano a più gite");
             System.out.println("9. Exit");
             System.out.print("inserisci la tua scelta: ");
 
@@ -221,7 +220,7 @@ public class ScuolaInformatica {
                     //readClasse();
                     break;
                 case 4:
-                    //deleteDocente();
+                    readDocentiConPiuDiUnaGita();
                     break;
                 case 9:
                     System.out.println("exiting");
@@ -383,6 +382,14 @@ public class ScuolaInformatica {
         while(i<listaClasseGita.size()){
             System.out.println(listaClasseGita.get(i).getId()+". " + "classe: "+ listaClasseGita.get(i).getClasseNome()+ " dal "+listaClasseGita.get(i).getDataPartenza()+" al "+listaClasseGita.get(i).getDataRitorno()+" coordinatore classe: "+listaClasseGita.get(i).getClasseCoordinatore()+" "+listaClasseGita.get(i).getGitaDettagli());
             i++;}
+    }
+
+    public static void readDocentiConPiuDiUnaGita(){
+        DocenteRepository docenteRepository = new DocenteRepository();
+        HashMap<Docente, Integer> docentiCountGita = docenteRepository.readDocentiConPiuDiUnaGita();
+        for (Docente i : docentiCountGita.keySet()) {
+            System.out.println("docente: " + i.getCognome() + i.getNome()+ " partecipa a gite n: " + docentiCountGita.get(i));
+        }
     }
 
 }
