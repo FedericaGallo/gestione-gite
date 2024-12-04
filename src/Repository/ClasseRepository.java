@@ -67,4 +67,28 @@ public class ClasseRepository {
         }
         return oClasse;
     }
+    public void updateClasse(Classe oClasse){
+        try {
+            Connection c = DbConnection.openConnection();
+            //System.out.println("Connessione riuscita!");
+            Statement stmt = c.createStatement();
+            stmt.execute("UPDATE Classe SET anno='"+oClasse.getAnno()+"', sezione='"+oClasse.getSezione()+"', id_docente='"+oClasse.getCoordinatoreId()+"' WHERE id =" + oClasse.getId());
+            System.out.println("model.dao.Classe aggiornato");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+    }
+    public void deleteDocente(Classe oClasse){
+        try {
+            Connection c = DbConnection.openConnection();
+            //System.out.println("Connessione riuscita!");
+            Statement stmt = c.createStatement();
+            stmt.execute("DELETE FROM Classe WHERE id = '" + oClasse.getId() + "'");
+            System.out.println("model.dao.Classe eliminato");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+    }
 }

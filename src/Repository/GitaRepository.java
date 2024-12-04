@@ -56,4 +56,45 @@ public class GitaRepository {
         }
         return oGita;
     }
+    //CREATE
+    public void createGita(Gita oGita) {
+
+        try {
+            Connection c = DbConnection.openConnection();
+            //System.out.println("Connessione riuscita!");
+            Statement stmt = c.createStatement();
+            stmt.execute("INSERT INTO gita VALUES('" + oGita.getDocenteId() + "','" + oGita.getDestinazione() + "')");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+    }
+    //DELETE
+    public void deleteGita(Gita oGita) {
+
+        try {
+            Connection c = DbConnection.openConnection();
+            //System.out.println("Connessione riuscita!");
+            Statement stmt = c.createStatement();
+            stmt.execute("DELETE FROM Gita WHERE id = '" + oGita.getId() + "'");
+            System.out.println("model.dao.Gita eliminato");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+    }
+    //UPDATE
+    public void updateGita(Gita oGita) {
+
+        try {
+            Connection c = DbConnection.openConnection();
+            //System.out.println("Connessione riuscita!");
+            Statement stmt = c.createStatement();
+            stmt.execute("UPDATE Gita SET destinazione='"+oGita.getDestinazione()+"', id_docente='"+oGita.getDocenteId()+"' WHERE id ="  + oGita.getId());
+            System.out.println("model.dao.Gita aggiornato");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+    }
 }

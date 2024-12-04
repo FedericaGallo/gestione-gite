@@ -23,7 +23,7 @@ public class ScuolaInformatica {
         System.out.println("1. Per gestire i docenti");
         System.out.println("2. Per gestire le classi");
         System.out.println("3. Per gestire le gite");
-        System.out.println("4. Per gestire i dettagli delle uscite didattiche");
+        System.out.println("4. Per gestire le gite pianificate");
         System.out.println("5. Query varie");
         choiceEntity = scanner.nextInt();
 
@@ -105,13 +105,13 @@ public class ScuolaInformatica {
                     createClasse();
                     break;
                 case 2:
-                    //updateDocente();
+                    updateClasse();
                     break;
                 case 3:
                     readClasse();
                     break;
                 case 4:
-                    //deleteDocente();
+                    deleteClasse();
                     break;
                 case 9:
                     System.out.println("exiting");
@@ -139,16 +139,16 @@ public class ScuolaInformatica {
 
             switch (choice){
                 case 1:
-                    //createClasse();
+                    createGita();
                     break;
                 case 2:
-                    //updateDocente();
+                    updateGita();
                     break;
                 case 3:
                     readGita();
                     break;
                 case 4:
-                    //deleteDocente();
+                    deleteGita();
                     break;
                 case 9:
                     System.out.println("exiting");
@@ -202,7 +202,7 @@ public class ScuolaInformatica {
         do{
             System.out.println("1. Cerca le gite in programma tra un intervallo di date");
             System.out.println("2. Cerca le gite di una classe ");
-            System.out.println("3. Cerca il docente che coordina una gita ");
+            System.out.println("3. ");
             System.out.println("4. Cerca i docenti che partecipano a più gite");
             System.out.println("9. Exit");
             System.out.print("inserisci la tua scelta: ");
@@ -217,7 +217,7 @@ public class ScuolaInformatica {
                     readClasseGitaByClasse();
                     break;
                 case 3:
-                    //readClasse();
+
                     break;
                 case 4:
                     readDocentiConPiuDiUnaGita();
@@ -266,7 +266,7 @@ public class ScuolaInformatica {
         System.out.println("ecco la lista dei docenti: ");
         DocenteService oDocenteService = new DocenteService();
         List<Docente> listaDocenti= oDocenteService.readDocente();
-        System.out.println(oDocenteService.hashCode());
+        //System.out.println(oDocenteService.hashCode());
         int i = 0;
         while(i<listaDocenti.size()){
             System.out.println(listaDocenti.get(i).getId()+" "+listaDocenti.get(i).getCognome()+" "+listaDocenti.get(i).getNome());
@@ -298,7 +298,19 @@ public class ScuolaInformatica {
         }
     }
     public static void updateClasse(){
-
+        readClasse();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("inserisci l'id della classe da modificare:");
+        int id = scanner.nextInt();
+        System.out.println("inserisci il nuovo anno:");
+        int anno = scanner.nextInt();
+        System.out.println("inserisci la nuova sezione:");
+        char sezione = scanner.next().charAt(0);
+        readDocente();
+        System.out.println("inserisci l'id del nuovo coordinatore:");
+        int idCoordinatore = scanner.nextInt();
+        ClasseService oClasseService = new ClasseService();
+        oClasseService.update(anno, sezione, id, idCoordinatore);
     }
     public static void readClasse(){
         System.out.println("ecco la lista delle classi: ");
@@ -311,7 +323,12 @@ public class ScuolaInformatica {
             i++;}
     }
     public static void deleteClasse(){
-
+        readClasse();
+        System.out.println("Elimina la classe con id: ");
+        Scanner scanner = new Scanner(System.in);
+        int id = scanner.nextInt();
+        ClasseService oClasseService = new ClasseService();
+        oClasseService.delete(id);
     }
     //CRUD GITA
     public static void readGita(){
@@ -323,6 +340,43 @@ public class ScuolaInformatica {
         while(i<listaGita.size()){
             System.out.println(listaGita.get(i).getId()+" "+listaGita.get(i).getDestinazione()+", coordinatore gita: "+listaGita.get(i).getDocenteCognome()+" "+listaGita.get(i).getDocenteNome() );
             i++;}
+    }
+    public static void createGita(){
+        try{
+            System.out.println("inserisci destinazione: ");
+            Scanner scanner = new Scanner(System.in);
+            String destinazione = scanner.nextLine();
+            readDocente();
+            System.out.println("inserisci l'id del docente coordinatore della gita: ");
+            int id_docente = scanner.nextInt();
+            scanner.nextLine();
+            GitaService oGitaService = new GitaService();
+            oGitaService.create(destinazione, id_docente);
+        }catch(Exception e){
+            System.out.println("Something went wrong.");
+        }
+    }
+    public static void deleteGita(){
+        readGita();
+        System.out.println("Elimina la gita con id: ");
+        Scanner scanner = new Scanner(System.in);
+        int id = scanner.nextInt();
+        GitaService oGitaService = new GitaService();
+        oGitaService.delete(id);
+    }
+    public static void updateGita(){
+        readGita();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("inserisci l'id della gita da modificare:");
+        int id = scanner.nextInt();
+        System.out.println("inserisci la nuova destinazione:");
+        scanner.nextLine();
+        String destinazione = scanner.nextLine();
+        readDocente();
+        System.out.println("inserisci l'id del nuovo coordinatore:");
+        int idCoordinatore = scanner.nextInt();
+        GitaService oGitaService = new GitaService();
+        oGitaService.update(id, destinazione, idCoordinatore);
     }
     //CRUD CLASSE GITA
     public static void createClasseGita(){
@@ -391,5 +445,6 @@ public class ScuolaInformatica {
             System.out.println("docente: " + i.getCognome() + i.getNome()+ " partecipa a gite n: " + docentiCountGita.get(i));
         }
     }
+
 
 }

@@ -8,4 +8,5 @@ La scuola Informatica & Co. vuole informatizzare la gestione delle gite scolasti
 * Ogni docente può gestire una gita;
 * Ogni classe deve essere coordinata da un docente;
 * Ogni docente può coordinare una classe.
+
 Realizzare lo schema E-R che deriva dalle regole di lettura. Aggiungere chiavi primarie e attributi per le entità coinvolte.
