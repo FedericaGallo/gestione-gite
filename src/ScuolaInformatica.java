@@ -177,13 +177,13 @@ public class ScuolaInformatica {
                     createClasseGita();
                     break;
                 case 2:
-                    //updateDocente();
+                    updateClasseGita();
                     break;
                 case 3:
-                    //readClasse();
+                   readClasseGita();
                     break;
                 case 4:
-                    //deleteDocente();
+                    deleteClasseGita();
                     break;
                 case 9:
                     System.out.println("exiting");
@@ -378,7 +378,7 @@ public class ScuolaInformatica {
         GitaService oGitaService = new GitaService();
         oGitaService.update(id, destinazione, idCoordinatore);
     }
-    //CRUD CLASSE GITA
+    //CRUD CLASSEGITA
     public static void createClasseGita(){
         try{
             readClasse();
@@ -402,6 +402,46 @@ public class ScuolaInformatica {
         }catch(Exception e){
             System.out.println("Something went wrong.");
         }
+    }
+    public static void readClasseGita(){
+        System.out.println("ecco la lista delle gite programmate: ");
+        ClasseGitaService oClasseGitaService = new ClasseGitaService();
+        List<ClasseGita> listaClasseGita= oClasseGitaService.readClasseGita();
+        //System.out.println(oDocenteService.hashCode());
+        int i = 0;
+        while(i<listaClasseGita.size()){
+            System.out.println(listaClasseGita.get(i).getId()+" "+listaClasseGita.get(i).getGitaDettagli()+", coordinatore classe: "+listaClasseGita.get(i).getClasseCoordinatore()+ ", dal "+ listaClasseGita.get(i).getDataPartenza()+ " al " + listaClasseGita.get(i).getDataRitorno());
+            i++;}
+    }
+    public static void updateClasseGita(){
+        readClasseGita();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("inserisci l'id della gita programmata da modificare:");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Inserisci la data di partenza nel formato YYYY-MM-DD: ");
+        String dataPartenza = scanner.nextLine();
+        System.out.println("Inserisci la data di ritorno nel formato YYYY-MM-DD: ");
+        String dataRitorno = scanner.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dataPartenzaFormatted = LocalDate.parse(dataPartenza, formatter);
+        LocalDate dataRitornoFormatted = LocalDate.parse(dataRitorno, formatter);
+        readGita();
+        System.out.println("inserisci l'id della gita");
+        int idGita = scanner.nextInt();
+        readClasse();
+        System.out.println("inserisci l'id della classe");
+        int idClasse = scanner.nextInt();
+        ClasseGitaService oClasseGitaService = new ClasseGitaService();
+        oClasseGitaService.update(id, idGita, idClasse, dataPartenzaFormatted, dataRitornoFormatted);
+    }
+    public static void deleteClasseGita(){
+        readClasseGita();
+        System.out.println("Elimina la gita programmata con id: ");
+        Scanner scanner = new Scanner(System.in);
+        int id = scanner.nextInt();
+        ClasseGitaService oClasseGitaService = new ClasseGitaService();
+        oClasseGitaService.delete(id);
     }
     // QUERY VARIE
     public static void readClasseGitaByDate(){

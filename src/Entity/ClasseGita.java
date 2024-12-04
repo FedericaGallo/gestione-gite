@@ -51,7 +51,7 @@ public class ClasseGita {
         return this.classe.getAnno()+ " " + this.classe.getSezione();
     }
     public String getGitaDettagli(){
-        return "destinazione " + this.gita.getDestinazione() + " docente coordinatore " + this.gita.getDocenteNome() + " " + this.gita.getDocenteCognome();
+        return "destinazione " + this.gita.getDestinazione() + " docente coordinatore: " + this.gita.getDocenteNome() + " " + this.gita.getDocenteCognome();
     }
     public int getId(){
         return this.id;
