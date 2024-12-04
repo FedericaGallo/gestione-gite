@@ -10,3 +10,28 @@ La scuola Informatica & Co. vuole informatizzare la gestione delle gite scolasti
 * Ogni docente può coordinare una classe.
 
 Realizzare lo schema E-R che deriva dalle regole di lettura. Aggiungere chiavi primarie e attributi per le entità coinvolte.
+
+## Entity
+
+### Classe
+* anno
+* sezione
+* id_docente
+* id
+
+### Docente
+* nome
+* cognome
+* id
+
+### Gita
+* id_docente
+* destinazione
+* id
+
+### classegita
+* id_gita
+* id_docente
+* data_partenza
+* data_ritorno
+* id
